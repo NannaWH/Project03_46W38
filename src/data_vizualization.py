@@ -121,6 +121,6 @@ def plots(data):
   
 
 # We run the data load and plot function for a selected location
-data = load_data('Location3.csv')
+data = load_data('Location2.csv')
 timeseries_plot(data, start_time="2017-08-01 00:00", end_time="2017-09-01 00:00")
 plots(data)
