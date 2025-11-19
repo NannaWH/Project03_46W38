@@ -7,23 +7,11 @@ import pandas as pd
 import matplotlib.pyplot as plt
 from windrose import WindroseAxes 
 
-## We create a function to import meteorological and wind power data
-def load_data(filename:str): 
-    """Load meterological and wind data."""
-    data = pd.read_csv(f'inputs/{filename}', sep=',')
+from data_cleaning import load_data
 
-    #We change the wind direction from degrees to radians
-    data['wdir_radians_10m'] = np.deg2rad(data['winddirection_10m'])
-    data['wdir_radians_100m'] = np.deg2rad(data['winddirection_100m'])
-
-    #Change the wind direction into cos and sin 
-    data['sin_wdir_10m'] = np.sin(data['wdir_radians_10m'])
-    data['cos_wdir_10m'] = np.cos(data['wdir_radians_10m'])
-    data['sin_wdir_100m'] = np.sin(data['wdir_radians_100m'])
-    data['cos_wdir_100m'] = np.cos(data['wdir_radians_100m'])
-
-    return data
-
+## Importing data 
+if __name__ == "__main__": 
+    data = load_data('Location2.csv')
 
 # We create a function that creates a time series plot of data
 # Function to create a time series plot for a specific period
@@ -56,7 +44,7 @@ def timeseries_plot(data, start_time, end_time):
     ax2.set_ylabel('Wind Speed (m/s)', fontsize=8)
     plt.title("Power and Wind Speeds over Time", fontsize=11)
 
-    # Make tick labels smaller
+    # We set the size of the tick labelse
     ax1.tick_params(axis='both', which='major', labelsize=7)
     ax2.tick_params(axis='both', which='major', labelsize=7)
 

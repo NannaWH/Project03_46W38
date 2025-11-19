@@ -1,34 +1,37 @@
 ################################################################################## Creating a simple persistence forecasting model ## 
 ################################################################################
 
-## Splitting data into Traning (80%) and Evaluation (20%) Data
+#Import packages
 import pandas as pd
 from sklearn.model_selection import train_test_split
-from data_vizualization import load_data
 import matplotlib.pyplot as plt
+from sklearn.metrics import mean_absolute_error, mean_squared_error, root_mean_squared_error, r2_score
+
+#Import modules 
+from data_cleaning import load_data, data_split
 
 ## Importing data 
 if __name__ == "__main__": 
-    data = load_data('Location2.csv')
+    data = load_data('Location4.csv')
+    X_train, y_train, X_test, y_test = data_split(data)
 
-# Ensure your DataFrame is sorted by time
-data = data.sort_index()
+# Persistence prediction
+prev = y_train.iloc[-1]          # last value from training set
+y_pred = y_test.shift(1)         # lag 1
+y_pred.iloc[0] = prev            # first prediction
 
-# Define the split point (80% for training, 20% for testing)
-split_point = int(len(data) * 0.8)
+## We calculate the Mean Absoluate Error to test the prediction model
+MAE_pers_model = mean_absolute_error(y_test, y_pred)
+MSE_pers_model = mean_squared_error(y_test, y_pred)
+RMSE_pers_model = root_mean_squared_error(y_test, y_pred)
+R2_pers_model = r2_score(y_pred, y_test)
 
-train_data = data.iloc[:split_point]
-test_data = data.iloc[split_point:]
+print(MAE_pers_model, MSE_pers_model, RMSE_pers_model, R2_pers_model)
 
-# Separate features (X) and target (y) for both sets
-X_train = train_data.drop('Power', axis=1)
-y_train = train_data[['Time', 'Power']]
 
-X_test = test_data.drop('Power', axis=1)
-y_test = test_data[['Time', 'Power']]
-
-## Creating a persistence forecasting (y_t = y_t-1)
-y_test['Power_lag1'] = y_test['Power'].shift(1)
+### OBS FIGURE OUT HOW TO MAKE THIS GRAPH
+"""
+## We make a graph to vizualize the difference between the predicted and actual power output
 
 # Ensure 'Time' is a datetime type
 y_test['Time'] = pd.to_datetime(y_test['Time'])
@@ -56,3 +59,4 @@ ax1.tick_params(axis='both', which='major', labelsize=7)
 
 # Save figure
 plt.savefig("outputs/persistence_model/power_forecast.png", bbox_inches='tight', dpi=300)
+"""
