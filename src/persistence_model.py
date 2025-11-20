@@ -29,34 +29,26 @@ R2_pers_model = r2_score(y_pred, y_test)
 print(MAE_pers_model, MSE_pers_model, RMSE_pers_model, R2_pers_model)
 
 
-### OBS FIGURE OUT HOW TO MAKE THIS GRAPH
-"""
-## We make a graph to vizualize the difference between the predicted and actual power output
+plt.figure()
+plt.scatter(y_pred, y_test)
+plt.xlabel("Power Predicted")
+plt.ylabel("Power Actual")
+plt.title(f"Scatter Plot: Power predicted vs actual")
+plt.show()
 
-# Ensure 'Time' is a datetime type
-y_test['Time'] = pd.to_datetime(y_test['Time'])
 
-# Filter data for the specified time range
-mask = (y_test['Time'] >= pd.to_datetime("2021-12-29 00:00")) & (y_test['Time'] <= pd.to_datetime("2021-12-31 00:00"))
-y_test = y_test.loc[mask]
+fig, ax = plt.subplots()
+fig.suptitle("Predictions vs. Actual Power")
+ax.plot(y_test, color = 'black', linestyle = '-', label="Actual Power")
+ax.plot(y_pred, color = 'orange', linestyle = ':', label="Predicted Power")
+plt.savefig("outputs/persistence_model/power_forecast_full.png") 
 
-# Create the plot
-fig, ax1 = plt.subplots()
 
-# Plot normalized power
-line1, = ax1.plot(y_test['Time'], y_test['Power'], 
-                color='black', linestyle='-', label='Actual Power Output and Lagged (AR1) Power Output', linewidth=0.8)
-line2, = ax1.plot(y_test['Time'], y_test['Power_lag1'], 
-                color='green', linestyle='--', label='Actual Power Output and Lagged (AR1) Power Output', linewidth=0.8)
-
-# Labels and title
-ax1.set_xlabel('Time', fontsize=8)
-ax1.set_ylabel('Power Output (Normalized 0-1)', fontsize=8)
-plt.title("Actual and Predicted Power Output using Persistence Forecasting", fontsize=11)
-
-# We set the size of the tick labelse
-ax1.tick_params(axis='both', which='major', labelsize=7)
-
-# Save figure
-plt.savefig("outputs/persistence_model/power_forecast.png", bbox_inches='tight', dpi=300)
-"""
+# We make a subset of the predicted and actual power data
+y_test_subset = y_test[2000:4000]
+y_pred_subset = y_pred[2000:4000]
+fig, ax = plt.subplots()
+fig.suptitle("Predictions vs. Actual Power")
+ax.plot(y_test_subset, color = 'black', linestyle = '-', label="Actual Power")
+ax.plot(y_pred_subset, color = 'orange', linestyle = ':', label="Predicted Power")
+plt.savefig("outputs/persistence_model/power_forecast_subset.png")

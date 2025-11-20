@@ -11,7 +11,7 @@ from data_cleaning import load_data
 
 ## Importing data 
 if __name__ == "__main__": 
-    data = load_data('Location2.csv')
+    data = load_data('Location4.csv')
 
 # We create a function that creates a time series plot of data
 # Function to create a time series plot for a specific period
@@ -87,7 +87,6 @@ def plots(data):
         plt.close()
 
     # We create a wind rose of wind directions and wind speeds for 10 and 100 meter above surface
-
     meters_as = [10, 100]
 
     for meters in meters_as:
@@ -98,17 +97,21 @@ def plots(data):
         ax.set_legend(title="Wind speed (m/s)")
         plt.savefig(f"outputs/scatterplots/windrose_{meters}m.png")
         plt.close()
-
-        # Create wind rose plot - power output
-        fig = plt.figure(figsize=(6, 6))
-        ax = WindroseAxes.from_ax(fig=fig)
-        ax.bar(data[f'winddirection_{meters}m'], data[f'Power'], normed=True, opening=1, edgecolor='white')
-        ax.set_legend(title="Wind power (0-1)")
-        plt.savefig(f"outputs/scatterplots/windrose_power_{meters}m.png")
-        plt.close()
   
 
+mean_power_pr_hours = data.groupby('hour')['Power'].mean()
+
+print(mean_power_pr_hours)
+stop
+
+plt.figure()
+plt.scatter(data['hour'], mean_power_pr_hours)
+plt.xlabel("Hour of day")
+plt.ylabel("Power output")
+plt.title(f"Scatter Plot: Power for different hours of the day")
+plt.show()
+
 # We run the data load and plot function for a selected location
-data = load_data('Location2.csv')
+data = load_data('Location4.csv')
 timeseries_plot(data, start_time="2017-08-01 00:00", end_time="2017-09-01 00:00")
 plots(data)

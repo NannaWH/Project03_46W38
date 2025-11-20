@@ -27,6 +27,7 @@ model.fit(X_train,y_train)
 
 # We make a prediction of y
 y_pred = model.predict(X_test)
+y_test = y_test.values
 
 ## We calculate the error measures to test the prediction model
 MAE_RFR_model = mean_absolute_error(y_pred, y_test)
@@ -43,13 +44,19 @@ plt.ylabel("Power Actual")
 plt.title(f"Scatter Plot: Power predicted vs actual")
 plt.show()
 
-"""
-##We scale the data to minimize the impact of big outliers
-# Create scaler
-scaler = StandardScaler()
 
-# Fit on data and transform
-scaler.fit(X_train)
-X_train_scaled = scaler.transform(X_train)
-X_test_scaled = scaler.transform(X_test)
-"""
+fig, ax = plt.subplots()
+fig.suptitle("Predictions vs. Actual Power")
+ax.plot(y_test, color = 'black', linestyle = '-', label="Actual Power")
+ax.plot(y_pred, color = 'orange', linestyle = ':', label="Predicted Power")
+plt.show()
+
+
+# We make a subset of the predicted and actual power data
+y_test_subset = y_test[2000:4000]
+y_pred_subset = y_pred[2000:4000]
+fig, ax = plt.subplots()
+fig.suptitle("Predictions vs. Actual Power")
+ax.plot(y_test_subset, color = 'black', linestyle = '-', label="Actual Power")
+ax.plot(y_pred_subset, color = 'orange', linestyle = ':', label="Predicted Power")
+plt.show()

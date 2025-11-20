@@ -55,6 +55,14 @@ plt.show()
 
 fig, ax = plt.subplots()
 fig.suptitle("Predictions vs. Actual Power")
-ax.plot(y_pred, label="Predicted Power")
-ax.plot(y_test, label="Actual Power")
+ax.plot(y_test, color = 'black', linestyle = '-', label="Actual Power")
+ax.plot(y_pred, color = 'orange', linestyle = ':', label="Predicted Power")
+plt.show()
+
+y_test_subset = y_test[2000:4000]
+y_pred_subset = y_pred[2000:4000]
+fig, ax = plt.subplots()
+fig.suptitle("Predictions vs. Actual Power")
+ax.plot(y_test_subset, color = 'black', linestyle = '-', label="Actual Power")
+ax.plot(y_pred_subset, color = 'orange', linestyle = ':', label="Predicted Power")
 plt.show()
