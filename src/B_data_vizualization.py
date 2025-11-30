@@ -1,21 +1,19 @@
-################################################################################## Visualising data to determine patterns ## 
+################################################################################## Visualising data to determine patterns ######################################
 ################################################################################
 
 #Import relevant packages
-import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 from windrose import WindroseAxes 
 
-from data_cleaning import load_data
-
-## Importing data 
-if __name__ == "__main__": 
-    data = load_data('Location4.csv')
-
 # We create a function that creates a time series plot of data
-# Function to create a time series plot for a specific period
 def timeseries_plot(data, start_time, end_time):
+    """Creating scatter plots showing the relationship between power output and each of meterological and wind data variables
+    
+    data = weather and power output data
+    start_time = start time for subplot of timeseries plot
+    end_time = end time for subplot of timeseries plot
+    """
     
     # Ensure 'Time' is a datetime type
     data['Time'] = pd.to_datetime(data['Time'])
@@ -61,7 +59,11 @@ def timeseries_plot(data, start_time, end_time):
     plt.savefig("outputs/Timeseriesplot_power_windspeed.png", bbox_inches='tight', dpi=300)
 
 #We create a function that scatter plots power output (y) and each (x) variable
-def plots(data):
+def scatter_plots(data):
+    """Creating scatter plots showing the relationship between power output and each of meterological and wind data variables
+    
+    data = weather and power output data
+    """
         
     #We scatter plot power output (y) and each (x) variable
     variables = [
@@ -86,6 +88,12 @@ def plots(data):
         plt.savefig(f"outputs/scatterplots/scatter_{variable}.png")
         plt.close()
 
+def wind_rose_plot(data):
+    """Creating a windrose plot of the wind directions
+    
+    data = weather and power output data
+    """
+
     # We create a wind rose of wind directions and wind speeds for 10 and 100 meter above surface
     meters_as = [10, 100]
 
@@ -95,23 +103,7 @@ def plots(data):
         ax = WindroseAxes.from_ax(fig=fig)
         ax.bar(data[f'winddirection_{meters}m'], data[f'windspeed_{meters}m'], normed=True, opening=1, edgecolor='white')
         ax.set_legend(title="Wind speed (m/s)")
-        plt.savefig(f"outputs/scatterplots/windrose_{meters}m.png")
+        plt.savefig(f"outputs/windrose/windrose_{meters}m.png")
         plt.close()
   
 
-mean_power_pr_hours = data.groupby('hour')['Power'].mean()
-
-print(mean_power_pr_hours)
-stop
-
-plt.figure()
-plt.scatter(data['hour'], mean_power_pr_hours)
-plt.xlabel("Hour of day")
-plt.ylabel("Power output")
-plt.title(f"Scatter Plot: Power for different hours of the day")
-plt.show()
-
-# We run the data load and plot function for a selected location
-data = load_data('Location4.csv')
-timeseries_plot(data, start_time="2017-08-01 00:00", end_time="2017-09-01 00:00")
-plots(data)
