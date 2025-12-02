@@ -7,10 +7,13 @@ import matplotlib.pyplot as plt
 def scatter_actualvspred(y_pred, y_test, model_name):
     """Creating a scatter plot of the predicted and actutual power output
     
-    y_pred = predicted power output
-    y_test = actual power output from test data
-    model_name = the prediction model name (persistence, random_forest, neural_network)
-
+    Args:
+        y_pred: predicted power output
+        y_test: actual power output from test data
+        model_name: the prediction model name (persistence, random_forest, neural_network)
+    
+    Return: 
+        Saved scatterplot of predicted power output vs. acutal power output.
     """
     y_test = y_test.values
 
@@ -22,19 +25,21 @@ def scatter_actualvspred(y_pred, y_test, model_name):
 
     plt.savefig(f"outputs/{model_name}_model/scatter_actualvspred.png")
     
-    return "Scatter plot actual vs. predicted power output saved"
+    return print(f"Scatter plot actual vs. predicted power output saved for model: {model_name}")
 
 
 def plot_actualvspred(y_pred, y_test, model_name, subset_start, subset_end):
     """Creating a line plot of the predicted and actutual power output
-
-    y_pred = predicted power output
-    y_pred = actual power output from test data
-    model_name = the prediction model name (persistence, random_forest, neural_network)
-
-    subset_start = from what data point the plot subset should start
-    subset_end = from what data point the plot subset should end
     
+    Args:
+        y_pred: predicted power output
+        y_pred: actual power output from test data
+        model_name: the prediction model name (persistence, random_forest, neural_network)
+        subset_start: from what data point the plot subset should start
+        subset_end: from what data point the plot subset should end
+
+    Return:
+        Two time series plot showing the predicted power output vs. the actual power output. One for the whole test time series data and one for a subset of the data.
     """
 
     y_test = y_test.values
@@ -53,6 +58,6 @@ def plot_actualvspred(y_pred, y_test, model_name, subset_start, subset_end):
     fig.suptitle("Predictions vs. Actual Power")
     ax.plot(y_test_subset, color = 'black', linestyle = '-', label="Actual Power")
     ax.plot(y_pred_subset, color = 'orange', linestyle = ':', label="Predicted Power")
-    plt.savefig(f"outputs/{model_name}_model/scatter_predvalues.png")
+    plt.savefig(f"outputs/{model_name}_model/actualvspred_subset_{subset_start}_{subset_end}.png")
 
-    return "Time Series plot actual vs. predicted power output saved"
+    return print(f"Time Series plot actual vs. predicted power output saved for model: {model_name}")

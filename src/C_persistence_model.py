@@ -2,19 +2,26 @@
 ################################################################################
 
 
-def persistence_model(y_train, y_test):
+def persistence_model(y_train, y_test, lag):
     """ Creating a persistence prediction model i.e. power output t = power output t-1
 
-    y_train = actual power output from train data
-    y_test = actual power output from test data
+    Args:
+        y_train: actual power output from train data
+        y_test: actual power output from test data
+
+    Returns:
+        y_pred: predicted power outcome 
     """
 
-    prev = y_train.iloc[-1]          # last value from training set
-    y_pred = y_test.shift(1)         # lag 1
-    y_pred.iloc[0] = prev            # first prediction
+    prev = y_train.iloc[-lag:]          # last value from training set
+    y_pred = y_test.shift(lag)          # lag 
+    y_pred.iloc[:lag] = prev            # first prediction
     y_pred = y_pred.values
 
+    print("Persistence model done")
+    
     return y_pred
+
 
 
 

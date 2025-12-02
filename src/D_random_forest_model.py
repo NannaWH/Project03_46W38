@@ -3,21 +3,27 @@
 
 #Importing packages
 from sklearn.ensemble import RandomForestRegressor
+import pandas as pd
 
 
 def random_forest_model_1hour(X_train, y_train, X_test):
     """ Creating a random forest prediction model for 1 hour ahead prediction
 
-    X_train = input variables (meterological and wind variables) in training data
-    y_train = output variable (power output) in training data
-    X_test = input variables (meterological and wind variables) in test data
-    y_train = output variable (power output) in testing data
+    Args:
+        X_train: training data - input variables (meterological and wind variables) 
+        y_train: training data - output variable (power output) 
+        X_test: test data - input variables (meterological and wind variables) 
+        y_test: test data - output variable (power output) 
+        model_regressor: MLPregressor or Kera (the ML model package used to train a neural network model)
+    
+    Returns:
+        y_pred: predicted power outcome 
     """
 
     #We drop the time column (Timestamp)
-    X_train = X_train.drop(['Time','date', 'time', 'year', 'day', 'relativehumidity_2m','windgusts_10m','winddirection_10m', 'winddirection_100m','wdir_radians_10m', 'wdir_radians_100m'], axis=1)
+    X_train = X_train.drop(['Time','date', 'time', 'year', 'day', 'hour',  'relativehumidity_2m','windgusts_10m','winddirection_10m', 'winddirection_100m','wdir_radians_10m', 'wdir_radians_100m', 'Power_l3', 'Power_l4','Power_l5','Power_l6', 'power_change_l1', 'power_change_l2'], axis=1)
     
-    X_test  = X_test.drop(['Time','date', 'time', 'year', 'day','relativehumidity_2m', 'windgusts_10m', 'winddirection_10m', 'winddirection_100m','wdir_radians_10m', 'wdir_radians_100m'], axis=1)
+    X_test  = X_test.drop(['Time','date', 'time', 'year', 'day', 'hour', 'relativehumidity_2m', 'windgusts_10m', 'winddirection_10m', 'winddirection_100m','wdir_radians_10m', 'wdir_radians_100m','Power_l3', 'Power_l4','Power_l5','Power_l6', 'power_change_l1', 'power_change_l2'], axis=1)
 
     # We make a Random Forest Prediction Model
     model = RandomForestRegressor(n_estimators=200, max_depth=20, min_samples_split=5, min_samples_leaf=2, random_state=12)
@@ -26,7 +32,51 @@ def random_forest_model_1hour(X_train, y_train, X_test):
     # We make a prediction of y
     y_pred = model.predict(X_test)
 
+    print("Random forest model is done")
+
     return y_pred
+
+
+def random_forest_model_6hour(X_train, y_train, X_test):
+    """ Creating a random forest prediction model for 1 hour ahead prediction
+
+    Args:
+        X_train: training data - input variables (meterological and wind variables) 
+        y_train: training data - output variable (power output) 
+        X_test: test data - input variables (meterological and wind variables) 
+        y_test: test data - output variable (power output) 
+        model_regressor: MLPregressor or Kera (the ML model package used to train a neural network model)
+    
+    Returns:
+        y_pred: predicted power outcome 
+    """
+
+    #We drop the time column (Timestamp)
+    X_train = X_train.drop(['Time','date', 'time', 'year', 'day','hour', 'windgusts_10m', 'relativehumidity_2m', 'winddirection_10m', 'winddirection_100m','wdir_radians_10m', 'wdir_radians_100m', 'windspeed_100m_l1', 'windspeed_change_l1', 'windspeed_change_momentum', 'Power_l5','Power_l4','Power_l1', 'windspeed_change_l2', 'std_windspeed_l0-l2'], axis=1)
+    
+    X_test  = X_test.drop(['Time','date', 'time', 'year', 'day', 'hour', 'windgusts_10m', 'relativehumidity_2m', 'winddirection_10m', 'winddirection_100m','wdir_radians_10m', 'wdir_radians_100m', 'windspeed_100m_l1', 'windspeed_change_l1', 'windspeed_change_momentum', 'Power_l5','Power_l4','Power_l1', 'windspeed_change_l2', 'std_windspeed_l0-l2'], axis=1)
+
+    # We make a Random Forest Prediction Model
+    model = RandomForestRegressor(n_estimators=400, max_depth=50, min_samples_split=3, min_samples_leaf=2, random_state=12)
+    model.fit(X_train,y_train)
+
+        # Get feature importance scores
+    importances = model.feature_importances_
+
+    # Associate scores with feature names for clarity
+    feature_names = X_train.columns
+    feature_importance_df = pd.DataFrame({'feature': feature_names, 'importance': importances})
+    feature_importance_df = feature_importance_df.sort_values(by='importance', ascending=False)
+
+    print(feature_importance_df)
+
+    # We make a prediction of y
+    y_pred = model.predict(X_test)
+
+    print("Random forest model is done")
+
+    return y_pred
+
 
 
 

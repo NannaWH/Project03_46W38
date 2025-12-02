@@ -10,9 +10,13 @@ from windrose import WindroseAxes
 def timeseries_plot(data, start_time, end_time):
     """Creating scatter plots showing the relationship between power output and each of meterological and wind data variables
     
-    data = weather and power output data
-    start_time = start time for subplot of timeseries plot
-    end_time = end time for subplot of timeseries plot
+    Args:
+        data: weather and power output data
+        start_time: start time for subplot of timeseries plot
+        end_time: end time for subplot of timeseries plot
+
+    Returns: 
+        A plot of the timeseries data (power output, wind speed) for a subset of the data. 
     """
     
     # Ensure 'Time' is a datetime type
@@ -56,13 +60,19 @@ def timeseries_plot(data, start_time, end_time):
     fig.autofmt_xdate()
 
     # Save figure
-    plt.savefig("outputs/Timeseriesplot_power_windspeed.png", bbox_inches='tight', dpi=300)
+    plt.savefig("outputs/timeseries/Timeseriesplot_power_windspeed.png", bbox_inches='tight', dpi=300)
+
 
 #We create a function that scatter plots power output (y) and each (x) variable
 def scatter_plots(data):
     """Creating scatter plots showing the relationship between power output and each of meterological and wind data variables
     
-    data = weather and power output data
+    Args:
+        data: weather and power output data
+
+    Returns: 
+        Scatterplots showing the correlation between out y-variable (power output) and the explanatory x-variables.
+
     """
         
     #We scatter plot power output (y) and each (x) variable
@@ -91,7 +101,11 @@ def scatter_plots(data):
 def wind_rose_plot(data):
     """Creating a windrose plot of the wind directions
     
-    data = weather and power output data
+    Args:
+        data: weather and power output data.
+
+    Returns:
+        A saved windrose diagram showing the power uput for difference windspeeds and directions.
     """
 
     # We create a wind rose of wind directions and wind speeds for 10 and 100 meter above surface

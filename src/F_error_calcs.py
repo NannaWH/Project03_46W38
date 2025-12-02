@@ -8,9 +8,13 @@ from sklearn.metrics import mean_absolute_error, mean_squared_error, root_mean_s
 def error_measures(y_pred, y_test, model_name):
     """Calculating errors 
     
-    y_pred = predicted power output
-    y_pred = actual power output from test data
-    model_name = the prediction model name (persistence, random_forest, neural_network)
+    Args:
+        y_pred: predicted power output
+        y_test: actual power output from test data
+        model_name: the prediction model name (persistence, random_forest, neural_network)
+
+    Return: 
+        Mean Absolute Error, Mean Squared Error, Root Mean Square Error, and R-squared calculated and saved in excel-file: error_output.xlsx
 
     """
 
@@ -36,6 +40,6 @@ def error_measures(y_pred, y_test, model_name):
     updated = pd.concat([existing, df_error_output], ignore_index=True)
     updated.to_excel('outputs/error_output.xlsx', index=False)
 
-    return f"Errors calculated and saved in error_output.xlsx for model: {model_name}"
+    return print(f"Errors calculated and saved in error_output.xlsx for model: {model_name}")
 
     
