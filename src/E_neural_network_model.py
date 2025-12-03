@@ -8,21 +8,21 @@ from keras import layers
 
 
 class neural_network_model_1hour(object):
-    """Creating a neural prediction model for 1 hour ahead prediction that can be calculated both using MLPregressor (sickit-learn) and Keras
+    """Creating a neural prediction model for 1 hour ahead prediction that can be calculated both using MLPregressor (sickit-learn) and Keras.
     
     Args:
-        X_train: training data - input variables (meterological and wind variables) 
-        y_train: training data - output variable (power output) 
-        X_test: test data - input variables (meterological and wind variables) 
-        y_test: test data - output variable (power output) 
-        model_regressor: MLPregressor or Kera (the ML model package used to train a neural network model)
+        X_train: training data - input variables (meterological and wind variables).
+        y_train: training data - output variable (power output).
+        X_test: test data - input variables (meterological and wind variables).
+        y_test: test data - output variable (power output).
+        model_regressor: MLPregressor or Kera (the ML model package used to train a neural network model).
 
     Returns:
-        y_pred: predicted power outcome 
+        y_pred: predicted power outcome.
     """
 
     def __init__(self, X_train, y_train, X_test, model_regressor):
-        """We define functions variable"""
+        """Define functions variable"""
         self.X_train = X_train
         self.y_train = y_train
         self.X_test = X_test
@@ -44,13 +44,13 @@ class neural_network_model_1hour(object):
         if model_regressor == "MLPRegressor":
 
             # We make a Neural Network Prediction Model
-            model = MLPRegressor(hidden_layer_sizes=(5, 5), activation='relu', solver='adam', max_iter=100, random_state=14) 
+            NN_model = MLPRegressor(hidden_layer_sizes=(5, 5), activation='relu', solver='adam', max_iter=100, random_state=14) 
 
-            # We make a prediction of y
-            model.fit(X_train, y_train)
+            # We train the model using our training data
+            NN_model.fit(X_train, y_train)
 
             # We predict y 
-            y_pred = model.predict(X_test)
+            y_pred = NN_model.predict(X_test)
 
         # Keras Neural network model 
         if model_regressor == "Keras":
@@ -58,10 +58,11 @@ class neural_network_model_1hour(object):
             # X_train has shape (number of samples, number of input variables)
             n_features = X_train.shape[1]
 
-            # Set global random seed number
+            # We set global random seed number
             keras.utils.set_random_seed(14)
 
-            model = keras.Sequential(
+            # We define the Keras Neural Network Prediction Model
+            NN_model = keras.Sequential(
                 [
                     layers.Dense(5, activation="relu", input_shape=(n_features,)),
                     layers.Dense(5, activation="relu"),
@@ -69,14 +70,14 @@ class neural_network_model_1hour(object):
                 ]
             )
 
-            # Compile model with loss optimizer mse
-            model.compile(optimizer='adam', loss='mse', metrics=['mae'])
+            # We compile model with loss optimizer mse
+            NN_model.compile(optimizer='adam', loss='mse')
 
-            # Train model on X_train, y_train data (epochs=100 - max_iter=100)
-            model.fit(X_train, y_train, epochs=100, batch_size=32, verbose=1)
-            
+            # We Train model on X_train, y_train data (epochs=100 - max_iter=100)
+            NN_model.fit(X_train, y_train, epochs=100) 
+
             # We predict y 
-            y_pred = model.predict(X_test)
+            y_pred = NN_model.predict(X_test)
 
             print("Neural network model is done")
 
@@ -85,17 +86,17 @@ class neural_network_model_1hour(object):
         
 
 class neural_network_model_6hour(object):
-    """Creating a neural prediction model for 6 hour ahead prediction that can be calculated both using MLPregressor (sickit-learn) and Keras
+    """Creating a neural prediction model for 6 hour ahead prediction that can be calculated both using MLPregressor (sickit-learn) and Keras.
     
     Args:
-        X_train: training data - input variables (meterological and wind variables) 
-        y_train: training data - output variable (power output) 
-        X_test: test data - input variables (meterological and wind variables) 
-        y_test: test data - output variable (power output) 
-        model_regressor: MLPregressor or Kera (the ML model package used to train a neural network model)
+        X_train: training data - input variables (meterological and wind variables).
+        y_train: training data - output variable (power output).
+        X_test: test data - input variables (meterological and wind variables).
+        y_test: test data - output variable (power output).
+        model_regressor: MLPregressor or Kera (the ML model package used to train a neural network model).
 
     Returns:
-        y_pred: predicted power outcome 
+        y_pred: predicted power outcome. 
     """
 
     def __init__(self, X_train, y_train, X_test, model_regressor):
@@ -121,13 +122,13 @@ class neural_network_model_6hour(object):
         if model_regressor == "MLPRegressor":
 
             # We make a Neural Network Prediction Model
-            model = MLPRegressor(hidden_layer_sizes=(5, 5), activation='relu', solver='adam', max_iter=100, random_state=14)
+            NN_model = MLPRegressor(hidden_layer_sizes=(5, 5), activation='relu', solver='adam', max_iter=100, random_state=14)
 
             # We make a prediction of y
-            model.fit(X_train, y_train)
+            NN_model.fit(X_train, y_train)
 
             # We predict y 
-            y_pred = model.predict(X_test)
+            y_pred = NN_model.predict(X_test)
 
         # Keras Neural network model 
         if model_regressor == "Keras":
@@ -135,10 +136,10 @@ class neural_network_model_6hour(object):
             # X_train has shape (number of samples, number of input variables)
             n_features = X_train.shape[1]
 
-            # Set global random seed number
+            # We set global random seed number
             keras.utils.set_random_seed(14)
 
-            model = keras.Sequential(
+            NN_model = keras.Sequential(
                 [
                     layers.Dense(5, activation="relu", input_shape=(n_features,)),
                     layers.Dense(5, activation="relu"),
@@ -146,14 +147,14 @@ class neural_network_model_6hour(object):
                 ]
             )
 
-            # Compile model with loss optimizer mse
-            model.compile(optimizer='adam', loss='mse', metrics=['mae'])
+            # We compile model with loss optimizer mse
+            NN_model.compile(optimizer='adam', loss='mse')
             
-            # Train model on X_train, y_train data
-            model.fit(X_train, y_train, epochs=100, batch_size=32, verbose=1)
+            # We train model on X_train, y_train data
+            NN_model.fit(X_train, y_train, epochs=100)
             
             # We predict y 
-            y_pred = model.predict(X_test)
+            y_pred = NN_model.predict(X_test)
 
             print("Neural network model is done")
 

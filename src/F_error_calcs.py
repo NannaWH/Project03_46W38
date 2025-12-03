@@ -17,27 +17,25 @@ def error_measures(y_pred, y_test, model_name, prediction_horizon):
 
     Return: 
         Mean Absolute Error, Mean Squared Error, Root Mean Square Error, and R-squared calculated and saved in excel-file: error_output.xlsx
-
     """
 
+    # We extract y_test values from the 
     y_test = y_test.values
 
-    # Calculating errors 
+    # We calculate errors 
     MAE = mean_absolute_error(y_pred, y_test)
     MSE = mean_squared_error(y_pred, y_test)
     RMSE = root_mean_squared_error(y_pred, y_test)
     R2 = r2_score(y_pred, y_test)
 
-    # Putting the errors into a dataframe
+    # We put the errors into a dataframe
     error_output = {'Prediction Horizon': [prediction_horizon], 'Prediction Model Name': [model_name], 'Mean Absolute Error': [MAE], 'Mean Squared Error': [MSE], 'Root Mean Square Error': [RMSE], 'R Squared': [R2]}
     
     df_error_output = pd.DataFrame(error_output)
 
-    # Saving the data
+    # We saving the data into an excisting datafile without overriding
     existing = pd.read_excel('outputs/error_output.xlsx')
     updated = pd.concat([existing, df_error_output], ignore_index=True)
     updated.to_excel('outputs/error_output.xlsx', index=False)
 
     return print(f"Errors calculated and saved in error_output.xlsx for model: {model_name}")
-
-    

@@ -47,10 +47,6 @@ The model is divided into the following modules and packages:
 
         G_results_visualisation.py: this file establishes functions that make plots of predicted vs. actual power outputs.
 
-    tests
-        xxx: 
-
-    
 
 - A description of the module/package architecture, with at least one diagram.
 - A description of the class(es) you have implemented in your package, with clear reference to the file name of the code inside src.

@@ -67,7 +67,7 @@ def plot_actualvspred(y_pred, y_test, model_name, subset_start, subset_end, pred
     ax.tick_params(axis='both', which='major', labelsize=7)
     ax.tick_params(axis='both', which='major', labelsize=7)
 
-    # We combine legends and add a box to the right of the graph with the legends
+    # We combine legends and add a legend box to the right of the graph 
     lines = [line1, line2]
     labels = [line.get_label() for line in lines]
     fig.subplots_adjust(right=0.75)

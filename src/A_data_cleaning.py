@@ -13,25 +13,26 @@ def load_and_clean_data(filename: str):
     """Load meterological and wind data.
 
     Args:
-        filename: the name of the file with meterological and wind data (Location1.csv, Location2.csv, Location3.csv, Location4.csv)
+        filename: the name of the file with meterological and wind data (Location1.csv, Location2.csv, Location3.csv, Location4.csv).
 
     Returns:
-        data: cleaned raw data to be used in the prediction models
+        data: cleaned raw data to be used in the prediction models.
     """
 
+    # We load the data
     data = pd.read_csv(f'inputs/{filename}', sep=',')
 
     # We change the wind direction from degrees to radians
     data['wdir_radians_10m'] = np.deg2rad(data['winddirection_10m'])
     data['wdir_radians_100m'] = np.deg2rad(data['winddirection_100m'])
 
-    # Change the wind direction into cos and sin
+    # We change the wind direction into cos and sin (make it into a circle)
     data['sin_wdir_10m'] = np.sin(data['wdir_radians_10m'])
     data['cos_wdir_10m'] = np.cos(data['wdir_radians_10m'])
     data['sin_wdir_100m'] = np.sin(data['wdir_radians_100m'])
     data['cos_wdir_100m'] = np.cos(data['wdir_radians_100m'])
 
-    # We extract from month and hour of day variables from the Time Variables
+    # We extract month and hour of day variables from the Time Variable
     data[['date', 'time']] = data['Time'].str.split(" ", expand=True)
     data['year'] = data['date'].str.split("-").str[0].astype("int64")
     data['month'] = data['date'].str.split("-").str[1].astype("int64")
@@ -52,10 +53,11 @@ def load_and_clean_data(filename: str):
     for i in range(1, 7):
         data[f'Power_l{i}'] = data['Power'].shift(i)
 
+    # We lag windspeed variable 1-2
     for i in range(1, 3):
         data[f'windspeed_100m_l{i}'] = data['windspeed_100m'].shift(i)
 
-    # We add changes in power output in the previous hours as variables
+    # We add variables to reflect changes in power in the previous hours
     data["power_change_l1"] = data['Power'] - data['Power_l1']
     data["power_change_l2"] = data['Power_l1'] - data['Power_l2']
     data["power_change_momentum"] = data["power_change_l1"] - data["power_change_l2"]
@@ -72,7 +74,7 @@ def load_and_clean_data(filename: str):
     # We drop n/a values
     data = data.dropna()
 
-    # Saving data in a CSV file
+    # We save data in a CSV file
     data.to_csv('inputs/cleaned_data.csv', index=False)
 
     print("Data is loaded and cleaned")
@@ -87,13 +89,13 @@ def data_split(data, splittype, prediction_horizon):
         data: weather and power output data
         splittype: sequential or timeseries split
         prediction_horizon: how many years in the future should be predicted
-        e.g., 1 year or 6 years
+        e.g., 1 year or 6 years.
 
     Returns:
         X_train: training dataset (the data the machine learning models aretested on) including the explanatory variables i.e., lagged power output and wind and weather data. 
-        y_train: training y-variable (power outcome in the future)
+        y_train: training y-variable (power outcome in the future).
         X_test: testing dataset (the data the model should predict power output based on) including the explanatory variables i.e., lagged power output and wind and weather data. 
-        y_test: testing y-variable (power outcome in the future)
+        y_test: testing y-variable (power outcome in the future).
     """
 
     # We ensure the DataFrame is sorted by time
@@ -105,11 +107,11 @@ def data_split(data, splittype, prediction_horizon):
     # We rop n/a values
     data = data.dropna()
 
-    # We drop the power value
+    # We drop the power value if prediction_horizon is 0 (zero)
     if prediction_horizon == 0:
         data = data.drop('Power', axis=1)
 
-    # We split data and ensure no shuffle as we are working with time series data
+    # We split data and ensure no shuffle (time series data)
     if splittype == "Sequential":
         X_train, X_test, y_train, y_test = train_test_split(data.drop(['Power_target'], axis='columns'), data.Power_target, test_size=0.2, shuffle=False)
 
@@ -123,6 +125,6 @@ def data_split(data, splittype, prediction_horizon):
             X_train, X_test = X.iloc[train_idx], X.iloc[test_idx]
             y_train, y_test = y.iloc[train_idx], y.iloc[test_idx]
 
-    print("Data is splitted")
+    print("Data is split")
 
     return X_train, y_train, X_test, y_test

@@ -12,12 +12,12 @@ sys.path.append(project_root)
 
 # We import the relevant modules that are used in the model
 from src.A_data_cleaning import load_and_clean_data, data_split
-from src.B_data_vizualization import timeseries_plot, scatter_plots, wind_rose_plot
+from src.B_data_visualisation import timeseries_plot, scatter_plots, wind_rose_plot
 from src.C_persistence_model import persistence_model
 from src.D_random_forest_model import random_forest_model_1hour,  random_forest_model_6hour
 from src.E_neural_network_model import neural_network_model_1hour, neural_network_model_6hour
 from src.F_error_calcs import error_measures
-from src.G_results_vizualization import scatter_actualvspred, plot_actualvspred
+from src.G_results_visualisation import scatter_actualvspred, plot_actualvspred
 
 if __name__ == "__main__": 
     
@@ -39,7 +39,7 @@ if __name__ == "__main__":
     print("Forecasting 1 hour ahead")
 
     # We split data into traning and test data
-    X_train, y_train, X_test, y_test = data_split(data=data, splittype="Timeseries", prediction_horizon=1) 
+    X_train, y_train, X_test, y_test = data_split(data=data, splittype="Sequential", prediction_horizon=1) 
 
     ### Persistence Model
     # We use the persistence model to predict power output
@@ -48,7 +48,7 @@ if __name__ == "__main__":
     # We calculate errors 
     error_measures(y_pred, y_test, model_name="persistence", prediction_horizon=1)
 
-    # We Vizualize the predicted and actual power output
+    # We Visualise the predicted and actual power output
     scatter_actualvspred(y_pred, y_test, model_name="persistence", prediction_horizon=1)
     plot_actualvspred(y_pred, y_test, model_name="persistence", prediction_horizon=1, subset_start=2000, subset_end=4000)
     plot_actualvspred(y_pred, y_test, model_name="persistence", prediction_horizon=1, subset_start=500, subset_end=700)
@@ -61,7 +61,7 @@ if __name__ == "__main__":
     # We calculate errors 
     error_measures(y_pred, y_test, model_name="random_forest", prediction_horizon=1)
 
-    # We Vizualize the predicted and actual power output
+    # We Visualise the predicted and actual power output
     scatter_actualvspred(y_pred, y_test, model_name="random_forest", prediction_horizon=1)
     plot_actualvspred(y_pred, y_test, model_name="random_forest", prediction_horizon=1, subset_start=2000, subset_end=4000)
     plot_actualvspred(y_pred, y_test, model_name="random_forest", prediction_horizon=1, subset_start=500, subset_end=700)
@@ -87,7 +87,7 @@ if __name__ == "__main__":
     print("Forecasting 6 hours ahead")
 
     # We split data into traning and test data
-    X_train, y_train, X_test, y_test = data_split(data=data, splittype="Timeseries", prediction_horizon=6) 
+    X_train, y_train, X_test, y_test = data_split(data=data, splittype="Sequential", prediction_horizon=6) 
 
     ### Persistence Model
 
@@ -97,7 +97,7 @@ if __name__ == "__main__":
     # We calculate errors 
     error_measures(y_pred, y_test, model_name="persistence", prediction_horizon = 6)
 
-    # We Vizualize the predicted and actual power output
+    # We Visualise the predicted and actual power output
     scatter_actualvspred(y_pred, y_test, model_name="persistence", prediction_horizon=6)
     plot_actualvspred(y_pred, y_test, model_name="persistence", prediction_horizon=6, subset_start=2000, subset_end=4000)
     plot_actualvspred(y_pred, y_test, model_name="persistence", prediction_horizon=6, subset_start=500, subset_end=700)
@@ -125,7 +125,7 @@ if __name__ == "__main__":
     # We calculate errors 
     error_measures(y_pred, y_test, model_name="neural_network", prediction_horizon=6)
 
-    # We Vizualize the predicted and actual power output
+    # We Visualise the predicted and actual power output
     scatter_actualvspred(y_pred, y_test, model_name="neural_network", prediction_horizon=6)
     plot_actualvspred(y_pred, y_test, model_name="neural_network", prediction_horizon=6, subset_start=2000, subset_end=4000)
     plot_actualvspred(y_pred, y_test, model_name="neural_network", prediction_horizon=6, subset_start=500, subset_end=700)
