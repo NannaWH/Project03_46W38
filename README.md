@@ -31,6 +31,8 @@ The model is divided into the following modules and packages:
         error output: this is a file that shows the calculated errors of the different trained machine learning models. 
 
     src
+        __init__.py: Empty file required for package initialization
+        
         A_data_cleaning.py: the file establishes functions that can load the location data from the inputs folder, clean the data and add lagged terms and other relevant explanatory variables.
 
         B_data_visualisation.py: the file establishes functions that can visualises the raw data. 

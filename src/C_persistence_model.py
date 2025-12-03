@@ -21,7 +21,3 @@ def persistence_model(y_train, y_test, lag):
     print("Persistence model done")
     
     return y_pred
-
-
-
-

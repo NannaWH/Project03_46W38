@@ -1,12 +1,14 @@
 ################################################################################## Visualising data to determine patterns ######################################
 ################################################################################
 
-#Import relevant packages
+# Import relevant packages
 import pandas as pd
 import matplotlib.pyplot as plt
 from windrose import WindroseAxes 
 
 # We create a function that creates a time series plot of data
+
+
 def timeseries_plot(data, start_time, end_time):
     """Creating scatter plots showing the relationship between power output and each of meterological and wind data variables
     
@@ -36,9 +38,9 @@ def timeseries_plot(data, start_time, end_time):
     # Plot wind speeds on secondary y-axis
     ax2 = ax1.twinx()
     line2, = ax2.plot(data_filtered['Time'], data_filtered['windspeed_100m'],
-                      color='blue', linestyle=':', label='Wind Speed 100m (m/s)', linewidth=0.8)
+                      color='green', linestyle='-', label='Wind Speed 100m (m/s)', linewidth=0.8)
     line3, = ax2.plot(data_filtered['Time'], data_filtered['windspeed_10m'],
-                      color='green', linestyle='--', label='Wind Speed 10m (m/s)', linewidth=0.8)
+                      color='red', linestyle='--', label='Wind Speed 10m (m/s)', linewidth=0.8)
 
     # Labels and title
     ax1.set_xlabel('Time', fontsize=8)
@@ -56,17 +58,24 @@ def timeseries_plot(data, start_time, end_time):
     fig.subplots_adjust(right=0.85)
     ax1.legend(lines, labels, loc='center left', bbox_to_anchor=(1.15, 0.5), borderaxespad=0, fontsize=8)
 
+    # Adding a grid to the graph
     ax1.grid(True)
+
+    # Rotate the date labels
     fig.autofmt_xdate()
 
     # Save figure
     plt.savefig("outputs/timeseries/Timeseriesplot_power_windspeed.png", bbox_inches='tight', dpi=300)
 
+    plt.close()
 
-#We create a function that scatter plots power output (y) and each (x) variable
+
+# We create a function that scatter plots power output (y) and each (x) variable
+
+
 def scatter_plots(data):
     """Creating scatter plots showing the relationship between power output and each of meterological and wind data variables
-    
+
     Args:
         data: weather and power output data
 
@@ -74,8 +83,8 @@ def scatter_plots(data):
         Scatterplots showing the correlation between out y-variable (power output) and the explanatory x-variables.
 
     """
-        
-    #We scatter plot power output (y) and each (x) variable
+ 
+    # We scatter plot power output (y) and each (x) variable
     variables = [
         "temperature_2m",
         "relativehumidity_2m",
@@ -98,9 +107,12 @@ def scatter_plots(data):
         plt.savefig(f"outputs/scatterplots/scatter_{variable}.png")
         plt.close()
 
+# We create a function that creates a wind rose plot of power output and wind directions
+
+
 def wind_rose_plot(data):
     """Creating a windrose plot of the wind directions
-    
+
     Args:
         data: weather and power output data.
 
@@ -119,5 +131,3 @@ def wind_rose_plot(data):
         ax.set_legend(title="Wind speed (m/s)")
         plt.savefig(f"outputs/windrose/windrose_{meters}m.png")
         plt.close()
-  
-
