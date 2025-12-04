@@ -17,8 +17,9 @@ The model is divided into the following folders, modules, and packages:
     - ***main.py:*** this file executes the final machine learning models as well as calculating errors and saving plots used predefined functions. 
     
 - **inputs**
-    - ***cleaned_data.csv:*** this file includes the raw data cleaned and with additional explanatory variables
-    - ***LocationX.csv:*** historical power and meterologicsl data for location X (1-4)
+    - ***cleaned_data.csv:*** this file includes the raw data cleaned and with additional explanatory variables.
+
+    - ***LocationX.csv:*** historical power and meterologicsl data for location X (1-4).
 
 - **outputs**
     - **neural_network_model:** this folder includes the timeseries plot and scatterplots comparing the neural network machine learning model's predicted power output and the actual power output.
@@ -36,7 +37,6 @@ The model is divided into the following folders, modules, and packages:
     - **error output:** this is a file that shows the calculated errors of the three different forecasting models and for different forecasting time horizons. 
 
 - **src**
-
     - ***__init__.py:*** Empty file required for package initialization.
             
     - ***A_data_cleaning.py:*** the file establishes functions that can load the location data from the inputs folder, clean the data, and add lagged terms and other relevant explanatory variables.
