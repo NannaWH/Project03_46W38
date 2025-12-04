@@ -1,26 +1,26 @@
 # Project03_46W38
 This is the final project in the course 46W38 Scientific Programming in Wind Energy, Fall 2025 at DTU. 
 
-This project develops three short-term wind power forecasting models namely:\
-    1) **Persistence model** \
-    2) **Random forest model** \
-    3) **Neural network model** 
+This project develops three short-term wind power forecasting models:\
+    1) **A persistence model** \
+    2) **A random forest machine learning model** \
+    3) **A neural network machine learning model** 
 
-Using historical meterological and power data, the models are trained to predict wind power generation one-hour ahead and six-hours ahead of the current hour.  
+Using historical meterological and power data, the models are trained to predict wind power generation one-hour ahead and six-hours ahead of the current hour. Furthermore, the models' performances are tested using graphs and error measures.
 
 ## Model Structure
 
-The overall python model is structured into seven python files (located in the src folder) defining functions and classes as well as one main python file (located in the example folder) executing the functions and classes in a structured manner. Futhermore, the model leverages data located in the input folder and generates and saves output into the output folder.
+The overall python model is structured into seven python files (located in the src folder) defining functions and classes as well as one main python file (located in the example folder) executing the functions and classes in a structured manner. The the model leverages data located in the input folder and generates and saves output into the output folder.
 
-The model is divided into the following modules and packages:
+The model is divided into the following folders, modules, and packages:
 - **examples**
     - ***main.py:*** this file executes the final machine learning models as well as calculating errors and saving plots used predefined functions. 
     
 - **inputs**
     - ***cleaned_data.csv:*** this file includes the raw data cleaned and with additional explanatory variables
-    - ***LocationX.csv-Location.csv:*** historical power and meterologicsl data for location X (1-4)
+    - ***LocationX.csv:*** historical power and meterologicsl data for location X (1-4)
 
-- ** outputs **
+- **outputs**
     - **neural_network_model:** this folder includes the timeseries plot and scatterplots comparing the neural network machine learning model's predicted power output and the actual power output.
 
     - **persistence_model:** this folder includes the timeseries plot and scatterplots comparing the persistence model's predicted power output and the actual power output.
@@ -55,7 +55,7 @@ The model is divided into the following modules and packages:
 
 ## Model Architecture Design
 
-Underneath diagram shows the architecture of the model (figure 1). 
+Underneath diagram shows the architecture of the model. 
 
 The blue box represents the external raw data with historical meteorological observations and wind power generation data. The white boxes are data preparation steps. In these steps the data from the blue box is loaded into the model, cleaned, updated with new variables, and split into four data sets (X_train, y_train, X_test and y_test). The four data sets are used in the forecasting models to train and test the performance of the models. 
 
