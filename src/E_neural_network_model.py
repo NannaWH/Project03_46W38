@@ -18,11 +18,11 @@ class neural_network_model_1hour(object):
         model_regressor: MLPregressor or Kera (the ML model package used to train a neural network model).
 
     Returns:
-        y_pred: predicted power outcome.
+        y_pred: predicted power outcome .
     """
 
     def __init__(self, X_train, y_train, X_test, model_regressor):
-        """Define functions variable"""
+        """Define function variables"""
         self.X_train = X_train
         self.y_train = y_train
         self.X_test = X_test
@@ -30,30 +30,34 @@ class neural_network_model_1hour(object):
 
     def __str__(self):
         return f"{self.name}"
+
     
-    def predict_ypred(self, X_train, y_train, X_test, model_regressor):
+    def predict_ypred(self):
         """Predicting power output"""
 
-        # Dropping irrelevant explanatory variables
+        # We drop irrelevant explanatory variables
+        X_train = self.X_train.drop(['Time', 'date', 'time', 'year', 'day', 'hour', 'relativehumidity_2m', 'windgusts_10m', 'winddirection_10m', 'winddirection_100m', 'wdir_radians_10m', 'wdir_radians_100m', 'Power_l3', 'Power_l4', 'Power_l5', 'Power_l6', 'power_change_l1', 'power_change_l2', 'power_change_momentum', 'windspeed_change_l1', 'windspeed_change_l2', 'windspeed_change_momentum', 'std_power_l0-l2', 'std_windspeed_l0-l2'], axis=1)
 
-        X_train = X_train.drop(['Time', 'date', 'time', 'year', 'day', 'hour', 'relativehumidity_2m', 'windgusts_10m', 'winddirection_10m', 'winddirection_100m', 'wdir_radians_10m', 'wdir_radians_100m', 'Power_l3', 'Power_l4', 'Power_l5', 'Power_l6', 'power_change_l1', 'power_change_l2', 'power_change_momentum', 'windspeed_change_l1', 'windspeed_change_l2', 'windspeed_change_momentum', 'std_power_l0-l2', 'std_windspeed_l0-l2'], axis=1)
-
-        X_test = X_test.drop(['Time', 'date', 'time', 'year', 'day', 'hour',  'relativehumidity_2m', 'windgusts_10m', 'winddirection_10m', 'winddirection_100m', 'wdir_radians_10m', 'wdir_radians_100m', 'Power_l3', 'Power_l4', 'Power_l5', 'Power_l6', 'power_change_l1', 'power_change_l2', 'power_change_momentum', 'windspeed_change_l1', 'windspeed_change_l2', 'windspeed_change_momentum', 'std_power_l0-l2', 'std_windspeed_l0-l2'], axis=1)
+        X_test = self.X_test.drop(['Time', 'date', 'time', 'year', 'day', 'hour',  'relativehumidity_2m', 'windgusts_10m', 'winddirection_10m', 'winddirection_100m', 'wdir_radians_10m', 'wdir_radians_100m', 'Power_l3', 'Power_l4', 'Power_l5', 'Power_l6', 'power_change_l1', 'power_change_l2', 'power_change_momentum', 'windspeed_change_l1', 'windspeed_change_l2', 'windspeed_change_momentum', 'std_power_l0-l2', 'std_windspeed_l0-l2'], axis=1)
 
         # Sickit-learn (MLPregressor) Neural network model 
-        if model_regressor == "MLPRegressor":
+        if self.model_regressor == "MLPRegressor":
 
             # We make a Neural Network Prediction Model
             NN_model = MLPRegressor(hidden_layer_sizes=(5, 5), activation='relu', solver='adam', max_iter=100, random_state=14) 
 
             # We train the model using our training data
-            NN_model.fit(X_train, y_train)
+            NN_model.fit(X_train, self.y_train)
 
             # We predict y 
             y_pred = NN_model.predict(X_test)
 
+            print("Neural network model is done")
+
+            return y_pred
+
         # Keras Neural network model 
-        if model_regressor == "Keras":
+        elif self.model_regressor == "Keras":
 
             # X_train has shape (number of samples, number of input variables)
             n_features = X_train.shape[1]
@@ -74,8 +78,8 @@ class neural_network_model_1hour(object):
             NN_model.compile(optimizer='adam', loss='mse')
 
             # We Train model on X_train, y_train data (epochs=100 - max_iter=100)
-            NN_model.fit(X_train, y_train, epochs=100) 
-
+            NN_model.fit(X_train, self.y_train, epochs=100)
+            
             # We predict y 
             y_pred = NN_model.predict(X_test)
 
@@ -83,10 +87,11 @@ class neural_network_model_1hour(object):
 
             return y_pred
         
-        
+        else:
+            raise ValueError("Model_regressor must be either 'MLPRegressor' or 'Keras'")
 
 class neural_network_model_6hour(object):
-    """Creating a neural prediction model for 6 hour ahead prediction that can be calculated both using MLPregressor (sickit-learn) and Keras.
+    """Creating a neural prediction model for 6 hours ahead prediction that can be calculated both using MLPregressor (sickit-learn) and Keras.
     
     Args:
         X_train: training data - input variables (meterological and wind variables).
@@ -96,11 +101,11 @@ class neural_network_model_6hour(object):
         model_regressor: MLPregressor or Kera (the ML model package used to train a neural network model).
 
     Returns:
-        y_pred: predicted power outcome. 
+        y_pred: predicted power outcome.
     """
 
     def __init__(self, X_train, y_train, X_test, model_regressor):
-        """We define functions variable"""
+        """Define function variables"""
         self.X_train = X_train
         self.y_train = y_train
         self.X_test = X_test
@@ -109,29 +114,32 @@ class neural_network_model_6hour(object):
     def __str__(self):
         return f"{self.name}"
 
-    def predict_ypred(self, X_train, y_train, X_test, model_regressor):
+    def predict_ypred(self):
         """Predicting power output"""
 
-        # Dropping irrelevant explanatory variables
-                
-        X_train = X_train.drop(['Time', 'date', 'time', 'year', 'day', 'hour',  'relativehumidity_2m', 'windgusts_10m', 'winddirection_10m', 'winddirection_100m', 'wdir_radians_10m', 'wdir_radians_100m'], axis=1)
+        # We drop irrelevant explanatory variables
+        X_train = self.X_train.drop(['Time', 'date', 'time', 'year', 'day', 'hour',  'relativehumidity_2m', 'windgusts_10m', 'winddirection_10m', 'winddirection_100m', 'wdir_radians_10m', 'wdir_radians_100m'], axis=1)
 
-        X_test = X_test.drop(['Time', 'date', 'time', 'year', 'day', 'hour',  'relativehumidity_2m', 'windgusts_10m', 'winddirection_10m', 'winddirection_100m', 'wdir_radians_10m', 'wdir_radians_100m'], axis=1)
+        X_test = self.X_test.drop(['Time', 'date', 'time', 'year', 'day', 'hour',  'relativehumidity_2m', 'windgusts_10m', 'winddirection_10m', 'winddirection_100m', 'wdir_radians_10m', 'wdir_radians_100m'], axis=1)
 
         # Sickit-learn (MLPregressor) Neural network model 
-        if model_regressor == "MLPRegressor":
+        if self.model_regressor == "MLPRegressor":
 
             # We make a Neural Network Prediction Model
-            NN_model = MLPRegressor(hidden_layer_sizes=(5, 5), activation='relu', solver='adam', max_iter=100, random_state=14)
+            NN_model = MLPRegressor(hidden_layer_sizes=(5, 5), activation='relu', solver='adam', max_iter=100, random_state=14) 
 
-            # We make a prediction of y
-            NN_model.fit(X_train, y_train)
+            # We train the model using our training data
+            NN_model.fit(X_train, self.y_train)
 
             # We predict y 
             y_pred = NN_model.predict(X_test)
 
+            print("Neural network model is done")
+
+            return y_pred
+
         # Keras Neural network model 
-        if model_regressor == "Keras":
+        elif self.model_regressor == "Keras":
 
             # X_train has shape (number of samples, number of input variables)
             n_features = X_train.shape[1]
@@ -139,6 +147,7 @@ class neural_network_model_6hour(object):
             # We set global random seed number
             keras.utils.set_random_seed(14)
 
+            # We define the Keras Neural Network Prediction Model
             NN_model = keras.Sequential(
                 [
                     layers.Dense(5, activation="relu", input_shape=(n_features,)),
@@ -149,9 +158,9 @@ class neural_network_model_6hour(object):
 
             # We compile model with loss optimizer mse
             NN_model.compile(optimizer='adam', loss='mse')
-            
-            # We train model on X_train, y_train data
-            NN_model.fit(X_train, y_train, epochs=100)
+
+            # We Train model on X_train, y_train data (epochs=100 - max_iter=100)
+            NN_model.fit(X_train, self.y_train, epochs=100)
             
             # We predict y 
             y_pred = NN_model.predict(X_test)
@@ -159,3 +168,8 @@ class neural_network_model_6hour(object):
             print("Neural network model is done")
 
             return y_pred
+        
+        else:
+            raise ValueError("Model_regressor must be either 'MLPRegressor' or 'Keras'")
+        
+        
