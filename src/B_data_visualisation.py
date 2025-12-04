@@ -44,7 +44,7 @@ def timeseries_plot(data, start_time, end_time):
 
     # We add labels and title
     ax1.set_xlabel('Time', fontsize=8)
-    ax1.set_ylabel('Power Output (Normalized 0-1)', fontsize=8)
+    ax1.set_ylabel('Power Output (percentage of maximum potential output)', fontsize=8)
     ax2.set_ylabel('Wind Speed (m/s)', fontsize=8)
     plt.title("Power and Wind Speeds over Time", fontsize=11)
 
@@ -101,7 +101,7 @@ def scatter_plots(data):
         plt.figure()
         plt.scatter(x, y)
         plt.xlabel(variable)
-        plt.ylabel("Power output")
+        plt.ylabel("Power Output (percentage of maximum potential output)")
         plt.title(f"Scatter Plot: Power vs {variable}")
 
         plt.savefig(f"outputs/scatterplots/scatter_{variable}.png")
@@ -128,6 +128,6 @@ def wind_rose_plot(data):
         fig = plt.figure(figsize=(6, 6))
         ax = WindroseAxes.from_ax(fig=fig)
         ax.bar(data[f'winddirection_{meters}m'], data[f'windspeed_{meters}m'], normed=True, opening=1, edgecolor='white')
-        ax.set_legend(title="Wind speed (m/s)")
+        ax.set_legend(title="Wind speed (m/s)", loc='upper right')
         plt.savefig(f"outputs/windrose/windrose_{meters}m.png")
         plt.close()

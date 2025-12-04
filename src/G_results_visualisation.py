@@ -23,8 +23,8 @@ def scatter_actualvspred(y_pred, y_test, model_name, prediction_horizon,):
     # We set up the plot
     plt.figure()
     plt.scatter(y_pred, y_test)
-    plt.xlabel("Power Predicted")
-    plt.ylabel("Power Actual")
+    plt.xlabel("Power Predicted (percentage of maximum potential output)")
+    plt.ylabel("Power Actual (percentage of maximum potential output)")
     plt.title("Scatter Plot: Predicted Power vs. Actual Power")
 
     # We save the plot
@@ -57,7 +57,7 @@ def plot_actualvspred(y_pred, y_test, model_name, subset_start, subset_end, pred
     # We add labels and title
     fig.suptitle("Predicted Power vs. Actual Power", fontsize=11)
     ax.set_xlabel('Data Point', fontsize=8)
-    ax.set_ylabel('Power Output (Normalized 0-1)', fontsize=8)
+    ax.set_ylabel('Power Output (percentage of maximum potential output)', fontsize=8)
 
     # We define the graph lines
     line1, = ax.plot(y_test, color='black', linestyle='-', label="Actual Power")
@@ -88,7 +88,7 @@ def plot_actualvspred(y_pred, y_test, model_name, subset_start, subset_end, pred
     # We add labels and title
     fig.suptitle("Predictions vs. Actual Power for Sample Subset", fontsize=11)
     ax.set_xlabel('Data Point', fontsize=8)
-    ax.set_ylabel('Power Output (Normalized 0-1)', fontsize=8)
+    ax.set_ylabel('Power Output (percentage of maximum potential output)', fontsize=8)
 
     # We define the graph lines
     line1, =ax.plot(y_test_subset, color='black', linestyle='-', label="Actual Power")
