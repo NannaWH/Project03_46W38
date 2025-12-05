@@ -1,5 +1,6 @@
-################################################################################## Creating a Machine Learning Forecasting Model using Neural Networks #########
-################################################################################
+###############################################################################
+## Creating a Machine Learning Forecasting Model using Neural Networks #######
+###############################################################################
 
 # Importing packages
 from sklearn.neural_network import MLPRegressor

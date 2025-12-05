@@ -1,5 +1,6 @@
-################################################################################## Creating a Machine Learning Forecasting Model using Random Forest Model #####
-################################################################################
+###############################################################################
+## Creating a Machine Learning Forecasting Model using Random Forest Model ###
+###############################################################################
 
 # Importing packages
 from sklearn.ensemble import RandomForestRegressor
