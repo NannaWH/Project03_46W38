@@ -6,7 +6,7 @@ This project develops three short-term wind power forecasting models:\
     2) **A random forest machine learning model** \
     3) **A neural network machine learning model** 
 
-Using historical meterological and power data, the models are trained to predict wind power generation one-hour and six-hours ahead of the current hour. Furthermore, the models' performances are tested using graphs and error measures.
+Using historical meterological and power data, the models are trained to predict wind power generation one hour and six hours ahead of the current hour. Furthermore, the models' performances are tested using graphs and error measures.
 
 ## Model Structure
 
