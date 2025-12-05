@@ -23,10 +23,10 @@ def error_measures(y_pred, y_test, model_name, prediction_horizon):
     y_test = y_test.values
 
     # We calculate errors 
-    MAE = mean_absolute_error(y_pred, y_test)
-    MSE = mean_squared_error(y_pred, y_test)
-    RMSE = root_mean_squared_error(y_pred, y_test)
-    R2 = r2_score(y_pred, y_test)
+    MAE = mean_absolute_error(y_test, y_pred)
+    MSE = mean_squared_error(y_test, y_pred)
+    RMSE = root_mean_squared_error(y_test, y_pred)
+    R2 = r2_score(y_test, y_pred)
 
     # We put the errors into a dataframe
     error_output = {'Prediction Horizon': [prediction_horizon], 'Prediction Model Name': [model_name], 'Mean Absolute Error': [MAE], 'Mean Squared Error': [MSE], 'Root Mean Square Error': [RMSE], 'R Squared': [R2]}

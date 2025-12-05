@@ -33,27 +33,25 @@ def timeseries_plot(data, start_time, end_time):
 
     # We plot normalized power (first y-axis)
     line1, = ax1.plot(data_filtered['Time'], data_filtered['Power'], 
-                      color='black', linestyle='-', label='Normalized Power Output', linewidth=0.8)
+                      color='darkblue', linestyle='-', label='Normalized Power Output', linewidth=0.8)
 
     # We plot wind speeds on secondary y-axis
     ax2 = ax1.twinx()
     line2, = ax2.plot(data_filtered['Time'], data_filtered['windspeed_100m'],
-                      color='green', linestyle='-', label='Wind Speed 100m (m/s)', linewidth=0.8)
-    line3, = ax2.plot(data_filtered['Time'], data_filtered['windspeed_10m'],
-                      color='red', linestyle='--', label='Wind Speed 10m (m/s)', linewidth=0.8)
+                      color='skyblue', linestyle='-', label='Wind Speed 100m (m/s)', linewidth=0.8)
 
     # We add labels and title
     ax1.set_xlabel('Time', fontsize=8)
     ax1.set_ylabel('Power Output (percentage of maximum potential output)', fontsize=8)
     ax2.set_ylabel('Wind Speed (m/s)', fontsize=8)
-    plt.title("Power and Wind Speeds over Time", fontsize=11)
+    plt.title("Power and Wind Speed over Time", fontsize=11)
 
     # We set the size of the tick labelse
     ax1.tick_params(axis='both', which='major', labelsize=7)
     ax2.tick_params(axis='both', which='major', labelsize=7)
 
     # We combine legends
-    lines = [line1, line2, line3]
+    lines = [line1, line2]
     labels = [line.get_label() for line in lines]
     fig.subplots_adjust(right=0.85)
     ax1.legend(lines, labels, loc='center left', bbox_to_anchor=(1.15, 0.5), borderaxespad=0, fontsize=8)

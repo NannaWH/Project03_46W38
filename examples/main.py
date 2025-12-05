@@ -41,7 +41,6 @@ if __name__ == "__main__":
     # We split data into traning and test data
     X_train, y_train, X_test, y_test = data_split(data=data, splittype="Sequential", prediction_horizon=1) 
 
-    
     ### Persistence Model
     # We use the persistence model to predict power output
     y_pred = persistence_model(y_train=y_train, y_test=y_test, lag=1)
@@ -81,7 +80,6 @@ if __name__ == "__main__":
     scatter_actualvspred(y_pred, y_test, model_name="neural_network", prediction_horizon=1)
     plot_actualvspred(y_pred, y_test, model_name="neural_network", prediction_horizon=1, subset_start=2000, subset_end=4000)
     plot_actualvspred(y_pred, y_test, model_name="neural_network", prediction_horizon=1, subset_start=500, subset_end=700)
-    
     
     ### Forecast: 6 hours ahead 
     # Assuming no weather forecast is provided - forecast is based on current and past weather data and power output
